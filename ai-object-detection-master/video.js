@@ -1,0 +1,174 @@
+document.getElementById("ai").addEventListener("change", toggleAi)
+document.getElementById("fps").addEventListener("input", changeFps)
+const model = await tf.loadGraphModel('Library/model.json');
+
+const video = document.getElementById("video");
+const c1 = document.getElementById('c1');
+const ctx1 = c1.getContext('2d');
+var cameraAvailable = false;
+var aiEnabled = false;
+var fps = 16;
+
+/* Setting up the constraint */
+
+var facingMode = "environment";
+
+// Can be 'user' or 'environment' to access back or front camera (NEAT!)
+
+var constraints = {
+    audio: false,
+    video: {
+        facingMode: facingMode
+    }
+};
+
+/* Stream it to video element */
+
+camera();
+function camera() {
+    if (!cameraAvailable) {
+        console.log("camera")
+        navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+            cameraAvailable = true;
+            video.srcObject = stream;
+        }).catch(function (err) {
+            cameraAvailable = false;
+            if (modelIsLoaded) {
+                if (err.name === "NotAllowedError") {
+                    document.getElementById("loadingText").innerText = "Waiting for camera permission";
+                }
+            }
+            setTimeout(camera, 1000);
+        });
+    }
+}
+
+window.onload = function () {
+    timerCallback();
+}
+
+function timerCallback() {
+    if (isReady()) {
+        setResolution();
+        ctx1.drawImage(video, 0, 0, c1.width, c1.height);
+        if (aiEnabled) {
+            ai();
+        }
+    }
+    setTimeout(timerCallback, fps);
+}
+
+function isReady() {
+    if (modelIsLoaded && cameraAvailable) {
+        document.getElementById("loadingText").style.display = "none";
+        document.getElementById("ai").disabled = false;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function setResolution() {
+    if (window.screen.width < video.videoWidth) {
+        c1.width = window.screen.width * 0.9;
+        let factor = c1.width / video.videoWidth;
+        c1.height = video.videoHeight * factor;
+    } else if (window.screen.height < video.videoHeight) {
+        c1.height = window.screen.height * 0.50;
+        let factor = c1.height / video.videoHeight;
+        c1.width = video.videoWidth * factor;
+    }
+    else {
+        c1.width = video.videoWidth;
+        c1.height = video.videoHeight;
+    }
+};
+
+function toggleAi() {
+    aiEnabled = document.getElementById("ai").checked;
+}
+
+function changeFps() {
+    fps = 1000 / document.getElementById("fps").value;
+}
+
+function ai() {
+    
+    // Detect objects in the image element
+
+    objectDetector.detect(c1, (err, results) => {
+        console.log(results); 
+        
+        // Will output bounding boxes of detected objects
+
+        for (let index = 0; index < results.length; index++) {
+            const element = results[index];
+            ctx1.font = "15px Arial";
+            ctx1.fillStyle = "red";
+            ctx1.fillText(element.label + " - " + (element.confidence * 100).toFixed(2) + "%", element.x + 10, element.y + 15);
+            ctx1.beginPath();
+            ctx1.strokeStyle = "red";
+            ctx1.rect(element.x, element.y, element.width, element.height);
+            ctx1.stroke();
+            console.log(element.label);
+        }
+    });
+}
+
+// const img = document.getElementById('image');
+// const tfImg = tf.browser.fromPixels(img);
+
+// // Resize the image to the input shape of the model
+// const resizedImg = tf.image.resizeBilinear(tfImg, [inputHeight, inputWidth]);
+
+// // Normalize the pixels
+// const normalizedImg = resizedImg.toFloat().div(tf.scalar(255));
+
+// // Expand the dimensions of the tensor to match the expected input shape of the model
+// const input = normalizedImg.expandDims();
+
+// // Get the model's predictions
+// const output = await model.executeAsync(input);
+
+// // Post-process the predictions to get the bounding boxes and labels
+// const boxes = output[0].dataSync();
+// const scores = output[1].dataSync();
+// const classes = output[2].dataSync();
+
+// // Draw the bounding boxes on the canvas
+// for (let i = 0; i < boxes.length; i += 4) {
+//   const ymin = boxes[i] * height;
+//   const xmin = boxes[i + 1] * width;
+//   const ymax = boxes[i + 2] * height;
+//   const xmax = boxes[i + 3] * width;
+//   const score = scores[i / 4];
+
+//   if (score > minScore) {
+//     const ctx = canvas.getContext('2d');
+//     ctx.beginPath();
+//     ctx.rect(xmin, ymin, xmax - xmin, ymax - ymin);
+//     ctx.stroke();
+//   }
+// }
+
+
+
+// const model = await tf.loadGraphModel('model.json');
+// const objectDetector = new ObjectDetector(model);
+// async function ai() {
+//     const image = tf.browser.fromPixels(c1);
+//     const results = await objectDetector.detect(image);
+//     tf.dispose(image);
+  
+//     for (const result of results) {
+//       const { x, y, width, height, label, score } = result;
+//       ctx1.font = "15px Arial";
+//       ctx1.fillStyle = "red";
+//       ctx1.fillText(`${label} - ${(score * 100).toFixed(2)}%`, x + 10, y + 15);
+//       ctx1.beginPath();
+//       ctx1.strokeStyle = "red";
+//       ctx1.rect(x, y, width, height);
+//       ctx1.stroke();
+//     }
+//   }
+  

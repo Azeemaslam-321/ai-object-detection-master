@@ -1,0 +1,35 @@
+const img = document.getElementById('image');
+const tfImg = tf.browser.fromPixels(img);
+
+// Resize the image to the input shape of the model
+const resizedImg = tf.image.resizeBilinear(tfImg, [inputHeight, inputWidth]);
+
+// Normalize the pixels
+const normalizedImg = resizedImg.toFloat().div(tf.scalar(255));
+
+// Expand the dimensions of the tensor to match the expected input shape of the model
+const input = normalizedImg.expandDims();
+
+// Get the model's predictions
+const output = await model.executeAsync(input);
+
+// Post-process the predictions to get the bounding boxes and labels
+const boxes = output[0].dataSync();
+const scores = output[1].dataSync();
+const classes = output[2].dataSync();
+
+// Draw the bounding boxes on the canvas
+for (let i = 0; i < boxes.length; i += 4) {
+  const ymin = boxes[i] * height;
+  const xmin = boxes[i + 1] * width;
+  const ymax = boxes[i + 2] * height;
+  const xmax = boxes[i + 3] * width;
+  const score = scores[i / 4];
+
+  if (score > minScore) {
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.rect(xmin, ymin, xmax - xmin, ymax - ymin);
+    ctx.stroke();
+  }
+}

@@ -1,0 +1,278 @@
+/* body {
+    text-align: center;
+    background-color:lightgray;
+}
+
+video {
+    width: 0px;
+    height: 0px;
+}
+
+table {
+    width: auto;
+    margin: auto;
+}
+
+tr, td {
+    border: 0px;
+    text-align: center; 
+}
+.new3{
+    background-color: crimson;
+}
+    h3.object-detection {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      
+      }
+      
+    
+
+label{
+    text-align: center;
+    font-size: 20px;
+    color: black;
+}
+.new{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    display: none;
+  }
+  
+  .lever {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    display: inline-block;
+  }
+  
+  .lever:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .lever {
+    background-color: #2196F3;
+  }
+  
+  input:checked + .lever:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .range-field {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .range-field input[type=range] {
+   
+    margin: 10px 0;
+    width: 100%;
+    height: 10px;
+    background: #ccc;
+  }
+  
+  .range-field input[type=range]:focus {
+    outline: none;
+  }
+  
+  .range-field input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #2196F3;
+    cursor: pointer;
+  }
+  
+  .range-field input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #2196F3;
+    cursor: pointer;
+  }
+  
+  .range-field input[type=range]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    background: #2196F3;
+    cursor: pointer;
+  }
+  .new1 {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  /* #video {
+    width: 100%;
+    height: auto;
+  } */
+  
+  /* #c1 {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+     */ 
+     
+     /* Style for the loading text */
+#loadingText {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+/* Style for the heading */
+.new3 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Style for the paragraph */
+.new1 {
+  font-size: 16px;
+  color: #666;
+  text-align: justify;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Style for the video */
+#video {
+  /* width: 100%; */
+  height: 0;
+  /* padding-bottom: 56.25%; 16:9 aspect ratio */
+  /* background-color: #000; */
+}
+
+/* Style for the canvas */
+#c1 {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #999;
+}
+
+/* Style for the table */
+table {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Style for the table cells */
+td.new {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  padding: 10px 20px;
+}
+
+/* Style for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch .lever {
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.switch .lever:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .lever {
+  background-color: #2196F3;
+}
+
+.switch input:focus + .lever {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.switch input:checked + .lever:before {
+  transform: translateX(26px);
+}
+
+.switch input:disabled + .lever {
+  opacity: .5;
+  pointer-events: none;
+}
